@@ -25,23 +25,22 @@ def skapa_snapshot(root: Path) -> dict:             #Skapar en ögonblicksbild a
                                                     # root = startkatalog där övervakningen börjar.
     snapshot = {}                                   #Dictionary som kommer fyllas med hashvärden
     for dirpath, _, filenames in os.walk(root):     #Går igenom mapparna rekursivt och kollar filnamn
-        for name in filenames:
-            p = Path(dirpath) / name
-            if p.name == baseline_file:
+        for name in filenames:                      
+            p = Path(dirpath) / name                # P = path och filnamn
+            if p.name == baseline_file:             # Om filen är baseline-filen, gå vidare
                 continue
             try:
-                rel = str(p.relative_to(root))
-                snapshot[rel] = sha256_fil(p)
-            except (PermissionError, OSError):
+                rel = str(p.relative_to(root))      #relative_to() är en metod i pathlib som används för att beräkna filens sökväg relativt till den övervakade katalogen, vilket gör baselinen portabel.
+                snapshot[rel] = sha256_fil(p)       #Den relativa sökvägen används som nyckel och hashvärdet av filens innehåll är value i snapshot dicten.
+            except (PermissionError, OSError):      
                 continue
-            return snapshot
+        
+    return snapshot
 
 
 
 
 
 if __name__ == "__main__":
-
-
-    hashvärde = sha256_fil(Path("/home/kali/temp/test.txt"))
-    print(hashvärde)
+    print(skapa_snapshot(Path("/home/kali/temp/")))
+    
