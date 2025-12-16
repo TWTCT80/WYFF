@@ -35,12 +35,23 @@ def skapa_snapshot(root: Path) -> dict:             #Skapar en ögonblicksbild a
             except (PermissionError, OSError):      
                 continue
         
-    return snapshot
+    return snapshot                                 # ex output av func: {'test.txt': '66d2d11753be2f4216fdce2502dae77fd9e1963a98f62623afa4b2d0e79967fe'}
 
 
 
+#Funktion som ändrar dictionaryn till en sträng så den kan skrivas som json, därefter sparas den som en fil.
+def spara_baseline(root: Path, baseline_save_file: Path) -> None:           
+    snap = skapa_snapshot(root)                                             # En dict med keys: relativa sökvägar, values: hashvärden
+    data = {"root": str(root.resolve()), "files": snap}                     # ex root.resolve() = /home/tom/Documents -> gör det till en sträng så json kan spara den.
+    baseline_save_file.write_text(json.dumps(data, indent=2), encoding="utf-8")                   #Skriver baseline-filen
+    print(f"\n[OK] - Baseline skapad @ {baseline_save_file} --- Innehåller {len(snap)} filer")
 
+def load_baseline(baseline_save_file: Path) -> dict:
+    json_file =  json.loads(baseline_save_file.read_text(encoding="utf-8"))       # read_text läser hela filen som en sträng. json.loads gör om den till ett python-ojekt.
+    #print(json_file)        #test-utskrift
+    return json_file
 
 if __name__ == "__main__":
-    print(skapa_snapshot(Path("/home/kali/temp/")))
-    
+    #print(skapa_snapshot(Path("/home/kali/temp/")))
+    spara_baseline(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
+    load_baseline(Path("/home/kali/Desktop/test.json"))
