@@ -51,7 +51,9 @@ def load_baseline(baseline_save_file: Path) -> dict:
     #print(json_file)        #test-utskrift
     return json_file
 
+
+
 if __name__ == "__main__":
-    #print(skapa_snapshot(Path("/home/kali/temp/")))
+    #print(skapa_snapshot(Path("/home/kali/temp/"))) #Test
     spara_baseline(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
     load_baseline(Path("/home/kali/Desktop/test.json"))
