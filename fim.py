@@ -71,9 +71,20 @@ def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Fu
             changed.append(f)
     changed = sorted(changed)
 
+    #Rubrik
+    print(f"\nMapp för övervakning: {root.resolve()}")
+    print(f"Baseline: {baseline_save_file.resolve()}")
+    print("-" * 40)
 
-
-
+    #Nya filer
+    print(f"\nNya filer: {len(added)}")
+    for f in added:
+        print(f" + {f}")
+    
+    #Borttagna filer
+    print(f"Borttagna filer: {len(removed)}")
+    for f in removed:
+        print(f" - {f}")
 
 
 
