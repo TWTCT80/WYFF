@@ -53,21 +53,21 @@ def load_baseline(baseline_save_file: Path) -> dict:
 
 def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Funktion som kontrollerar root (mappen du vill kontrollera) mot baseline_save_file (json-filen)
     base = load_baseline(baseline_save_file)                                # Läser json-filen och sparar som en dict (base)
-    old = base["files"]                                                     # plocka ut filerna ur dicten, se nedan: 
-    new = skapa_snapshot(root)                                              #"root": "/home/tom/Documents",
+    baseline_files = base["files"]                                                     # plocka ut filerna ur dicten, se nedan: 
+    current_files = skapa_snapshot(root)                                              #"root": "/home/tom/Documents",
                                                                             #"files": {
                                                                             #  "text1.txt": "hash1",
                                                                             #  "text2.txt": "hash2"
 
-    old_set = set(old.keys())       #Skapar sets för att göra jämförelsen enkel
-    new_set = set(new.keys())
+    baseline_paths = set(baseline_files.keys())       #Skapar sets för att göra jämförelsen enkel
+    current_paths = set(current_files.keys())
 
-    added = sorted(new_set - old_set)
-    removed = sorted(old_set - new_set)
+    added = sorted(current_paths - baseline_paths)
+    removed = sorted(baseline_paths - current_paths)
     
     changed = []
-    for f in (old_set & new_set):       # jämför de gamla och nya setsen
-        if old[f] != new[f]:
+    for f in (baseline_paths & current_paths):       # jämför de gamla och nya setsen
+        if baseline_files[f] != current_files[f]:
             changed.append(f)
     changed = sorted(changed)
 
@@ -76,7 +76,9 @@ def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Fu
 
 
 
+
+
 if __name__ == "__main__":
     #print(skapa_snapshot(Path("/home/kali/temp/"))) #Test
-    print(integrity_check(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json")))
+    integrity_check(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
     #load_baseline(Path("/home/kali/Desktop/test.json"))
