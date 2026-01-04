@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env/python3
 
 import argparse             #Läsa från kommandoraden.
 import hashlib              #skapar hash-object -> hashobject kan ta emot data -> ger ett hashvärde
@@ -95,6 +95,12 @@ def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Fu
         print("[OK] - Inga förändringar har hittats")
     else:
         print("[VARNING] - Förändringar har hittats!")
+
+def main():
+    ap = argparse.ArgumentParser(description="FIM: Kontrollerar filintegritet")
+    ap.add_argument("mode", choices=["baseline", "check"], help="Skapa baseline eller kontrollera")
+    ap.add_argument("path", help="Mapp du vill övervaka")
+    ap.add_argument("--baseline-file", default=baseline_file, help="Baseline json-file (default = fim_base.json)" )
 
 
 if __name__ == "__main__":
