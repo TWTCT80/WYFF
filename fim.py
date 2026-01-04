@@ -51,9 +51,55 @@ def load_baseline(baseline_save_file: Path) -> dict:
     #print(json_file)        #test-utskrift
     return json_file
 
+def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Funktion som kontrollerar root (mappen du vill kontrollera) mot baseline_save_file (json-filen)
+    base = load_baseline(baseline_save_file)                                # Läser json-filen och sparar som en dict (base)
+    baseline_files = base["files"]                                                     # plocka ut filerna ur dicten, se nedan: 
+    current_files = skapa_snapshot(root)                                              #"root": "/home/tom/Documents",
+                                                                            #"files": {
+                                                                            #  "text1.txt": "hash1",
+                                                                            #  "text2.txt": "hash2"
+
+    baseline_paths = set(baseline_files.keys())       #Skapar sets för att göra jämförelsen enkel
+    current_paths = set(current_files.keys())
+
+    added = sorted(current_paths - baseline_paths)
+    removed = sorted(baseline_paths - current_paths)
+    
+    changed = []
+    for f in (baseline_paths & current_paths):       # jämför de gamla och nya setsen
+        if baseline_files[f] != current_files[f]:
+            changed.append(f)
+    changed = sorted(changed)
+
+    #Rubrik
+    print(f"\nMapp för övervakning: {root.resolve()}")
+    print(f"Baseline: {baseline_save_file.resolve()}")
+    print("-" * 40)
+
+    #Nya filer
+    print(f"\nNya filer: {len(added)}")
+    for f in added:
+        print(f" + {f}")
+    
+    #Borttagna filer
+    print(f"Borttagna filer: {len(removed)}")
+    for f in removed:
+        print(f" - {f}")
+
+    #Ändrade filer
+    print(f"Ändrade filer: {len(changed)}")
+    for f in changed:
+        print(f" * {f}")
+
+    if not (added or removed or changed):
+        print("[OK] - Inga förändringar har hittats")
+    else:
+        print("[VARNING] - Förändringar har hittats!")
 
 
 if __name__ == "__main__":
     #print(skapa_snapshot(Path("/home/kali/temp/"))) #Test
-    spara_baseline(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
-    load_baseline(Path("/home/kali/Desktop/test.json"))
+    
+    #spara_baseline(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
+    integrity_check(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
+    #load_baseline(Path("/home/kali/Desktop/test.json"))
