@@ -86,10 +86,20 @@ def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Fu
     for f in removed:
         print(f" - {f}")
 
+    #Ändrade filer
+    print(f"Ändrade filer: {len(changed)}")
+    for f in changed:
+        print(f" * {f}")
 
+    if not (added or removed or changed):
+        print("[OK] - Inga förändringar har hittats")
+    else:
+        print("[VARNING] - Förändringar har hittats!")
 
 
 if __name__ == "__main__":
     #print(skapa_snapshot(Path("/home/kali/temp/"))) #Test
+    
+    #spara_baseline(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
     integrity_check(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
     #load_baseline(Path("/home/kali/Desktop/test.json"))
