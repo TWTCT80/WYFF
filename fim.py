@@ -101,11 +101,21 @@ def main():
     ap.add_argument("mode", choices=["baseline", "check"], help="Skapa baseline eller kontrollera")
     ap.add_argument("path", help="Mapp du vill övervaka")
     ap.add_argument("--baseline-file", default=baseline_file, help="Baseline json-file (default = fim_base.json)" )
+    args = ap.parse_args()
 
+    root = Path(args.path).expanduser().resolve()
+    baseline_path = Path(args.baseline_file).expanduser().resolve()
+
+    if not root.is_dir():
+        raise SystemExit(f"Fel: {root} är ingen mapp.")
+
+    if args.mode == "baseline":
+        spara_baseline(root, baseline_path)
+    else:
+        if not baseline_path.exists():
+            raise SystemExit(f"Fel: baseline-filen finns inte: {baseline_path}\nKör baseline först.")
+        integrity_check(root, baseline_path)
 
 if __name__ == "__main__":
-    #print(skapa_snapshot(Path("/home/kali/temp/"))) #Test
-    
-    #spara_baseline(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
-    integrity_check(Path("/home/kali/temp/"), Path("/home/kali/Desktop/test.json"))
-    #load_baseline(Path("/home/kali/Desktop/test.json"))
+    main()
+
