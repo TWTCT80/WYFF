@@ -1,0 +1,11 @@
+{
+  "root": "/home/kali/Desktop",
+  "files": {
+    "virtualbox.desktop": "c541327032ef16f3ab46245dca6344bc286a657eff0ed21fc9d73bbd383c3255",
+    "test.py": "328b948b20383dd6f75c8432a914e8da6d90f781cbea165948fcf03aea3fe9ab",
+    "test.txt": "6085d1eaf706a0cc394e7502c3c15b7a078a1b11ad41a1a2309107acd8b672d8",
+    "test.json": "ab212f3b66d44856ca07b56f17b5bc0468aa3d6e60a99307a30707844c474fe4",
+    "discord.desktop": "e25f7032700baf0157a92f5a1aa3c025834a75f57ac981c91436f910cc33c298",
+    "kali-burpsuite.desktop": "f37133b121fc608c27c791bce502b781ea752c31feb092714e4b824227c1a6f1"
+  }
+}
