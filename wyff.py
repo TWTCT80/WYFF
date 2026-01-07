@@ -134,6 +134,8 @@ Notes:
   • A baseline represents the file state at a specific point in time.
   • The same baseline file must be used when running 'check'.
   • If no --baseline-file is specified, the default file is used.
+
+  
 """,
     formatter_class=argparse.RawTextHelpFormatter,
     )
