@@ -7,7 +7,7 @@ import os                   #Ge tillgång till operativsystemets funktioner.
 from pathlib import Path    #Bättre sätt att arbeta med filer o foldrar.
 
 BASELINE_FILE = "wyff_baseline.json" 
-line = "*" * 50
+line = "*" * 65
 header = """
           
 █████   ███   █████ █████ █████ ███████████ ███████████
@@ -19,7 +19,9 @@ header = """
     ░░███ ░░███         █████    █████       █████      
      ░░░   ░░░         ░░░░░    ░░░░░       ░░░░░           
           
-            ** Watch Your Files Fool **"""
+            ** Watch Your Files Fool **
+            
+                       RESULT"""
 
 
 def sha256_file(path: Path) -> str:                  #Funktion som beräknar SHA-256-hashen
@@ -86,9 +88,10 @@ def check_integrity(root: Path, baseline_save_file: Path) -> None:          # Fu
 
     #Rubrik
     print(header)
-    print(f"\n\nTarget directory: {root.resolve()}")
     print(line)
-    print(f"Baseline path: {baseline_save_file.resolve()}")
+    print(f"\nTarget directory: {root.resolve()}")
+    print(line)
+    print(f"\nBaseline path: {baseline_save_file.resolve()}")
     print(line)
 
     #Nya filer
@@ -102,15 +105,19 @@ def check_integrity(root: Path, baseline_save_file: Path) -> None:          # Fu
         print(f" - {f}")
 
     #Ändrade filer
-    print(f"Changed files: {len(changed)}\n")
+    print(f"Changed files: {len(changed)}")
     for f in changed:
         print(f" * {f}")
         
 
     if not (added or removed or changed):
-        print("[OK] - No changes have been found !\n")
+        print(line)
+        print("\n[OK] - No changes have been found !\n")
+        print(line)
     else:
-        print("[WARNING] - CHANGES FOUND !!\n")
+        print(line)
+        print("\n[WARNING] - CHANGES FOUND !!\n")
+        print(line)
 
 def main():
     ap = argparse.ArgumentParser(
