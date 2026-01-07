@@ -22,18 +22,20 @@ This project was created as part of a programming assignment with focus on cyber
 ## Usage
 
 Create a baseline:
-
-  wyff baseline /path/to/directory
+```text
+wyff baseline /path/to/directory
+```
 
 Check the directory against the baseline:
-
-  wyff check /path/to/directory
+```text 
+wyff check /path/to/directory
+```
 
 Use a custom baseline file:
-
-  wyff baseline /path/to/directory --baseline-file mybaseline.json
-  wyff check /path/to/directory --baseline-file mybaseline.json
-
+```text
+wyff baseline /path/to/directory --baseline-file mybaseline.json
+wyff check /path/to/directory --baseline-file mybaseline.json
+```
 ## How it works
 
 [1] WYFF walks through the target directory recursively.
