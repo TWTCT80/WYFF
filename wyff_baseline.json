@@ -1,16 +1,18 @@
 {
-  "root": "/home/kali/Pictures",
+  "root": "/home/kali/Downloads",
   "files": {
-    "Screenshot_2025-12-31_11_42_39.png": "bc88cdfba275f1b8adcaa05c31c6afd65ece13008aa243da0155fd8ad36cbd5b",
-    "Screenshot_2025-12-19_07_18_09.png": "8917873cd68bddb8c553951a276065c734a1dc5bfd29b9518fa7fd63f8650612",
-    "photo-1708447782261-cdbecd7c97c6.jpeg": "21b5275e9a37f662e4aa45a4c1a6122270292661d18a9f8f22a27e563b8d5a0e",
-    "pastel-nature-color-palette-powerpoint.png": "6fb80bbaaee79e097f8c95761fd52a48d9f6c99620c1771d76737521f4779336",
-    "Wallpaper Black Background Red Color Paint Explosion Burst.jpg": "b1b748b1631aa9e088f5bc0de4cc310d7242b39dae35e5118a8e9e61a82e6deb",
-    "wp6801437-kali-linux-hd-desktop-wallpapers.jpg": "6cd981ae273dce3d92f3cec3ec2db19205f46bcd1f6b17cd736be3665fdb9434",
-    "Wallpaper Red Black Abstract Ultra HD 4k.jpg": "3e73d2f6fbad58470168caf8d576b0cd4ec979b6ed98e19a036195b648a08788",
-    "kali.png": "928231e847f0dc35f141d2f0b674ec95dfe5e9d44a6ad281fd9212f8721e033f",
-    "vxg3josxvh851.png": "6f1289031d3f2828b3222d06ec4a6fff9a8bcd02ba1bdabd446106717bdcc027",
-    "58uwde.jpg": "17101518c498c0d2f46c0a64cc870697be1d37fe805fd09e0bcf296c67fe16b8",
-    "wp6801491-kali-linux-hd-desktop-wallpapers.jpg": "b27ea7bc256770cc4c064d6197a0ad052d6b5972243dcb2834d41a0520730cdc"
+    "intruder.png": "b41689185f257e6298906052c183ec4d3e30856ff094cbe6269b0b294c3e897e",
+    "img.jpg": "b3a021a03d49327aa285e65e7904fc8027f80af8d5152664cd02d7035173e3c8",
+    "F\u00f6retag lista CS25(Blad1).csv": "3bec88df066b5ef28db132612904a93767c66851ac4f470e40dede69a02598d4",
+    "tom_thorsen_cv.pdf": "4022e8b521f3659a4f423c208347b8ce3c7e86df6a044b9dd327e68bae89524c",
+    "DVWA-1.0.7.iso": "30cd97d30500bb0a17a72dcdce70bb9f4d2c7f2f13b5614320731e24db1cfcad",
+    "server.log": "78a17f8fc2d1c136b5c0361ff02691e43e1a16a379c8e5401e0691d740c92639",
+    "test.txt": "f02266aaea02a6855c321b2a45213a5c1bc7b82bfcceaac9d4d76de3be43d513",
+    "TOM_THORS\u00c9N_CV.pdf": "29d527cd01e70fbe7deb03a09ad948dcdf42c0d00945f65ed8a8af5dec2c497e",
+    "vuln": "9225c5efc6c386721b4a5c2b812508b1826a678fac5f74ab82e073ebe4669ccf",
+    "hej.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "flag.txt": "e44f777b26da3f63dbce45d8e16d91ffca9ba4b02b8af4522536248ca8c2123b",
+    "Garuga-Emblem.png": "dfc2c43c7a304385366e24c38a6594d386012caa3a1d48bcc49fca9477c65e6d",
+    "vuln.c": "34b0eb286ac3a7e7db9c330d6827486d2b5f0972224c3d655f7c63768523a9cc"
   }
 }
