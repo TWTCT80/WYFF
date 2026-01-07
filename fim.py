@@ -1,4 +1,4 @@
-#!/usr/bin/env/python3
+#!/usr/bin/env python3
 
 import argparse             #Läsa från kommandoraden.
 import hashlib              #skapar hash-object -> hashobject kan ta emot data -> ger ett hashvärde
@@ -6,11 +6,23 @@ import json                 #Läser och skriver i json.
 import os                   #Ge tillgång till operativsystemets funktioner.
 from pathlib import Path    #Bättre sätt att arbeta med filer o foldrar.
 
-baseline_file = "fim_base.json" 
+BASELINE_FILE = "wyff_baseline.json" 
+line = "*" * 50
+header = """
+          
+█████   ███   █████ █████ █████ ███████████ ███████████
+░░███   ░███  ░░███ ░░███ ░░███ ░░███░░░░░░█░░███░░░░░░█
+ ░███   ░███   ░███  ░░███ ███   ░███   █ ░  ░███   █ ░ 
+ ░███   ░███   ░███   ░░█████    ░███████    ░███████   
+ ░░███  █████  ███     ░░███     ░███░░░█    ░███░░░█   
+  ░░░█████░█████░       ░███     ░███  ░     ░███  ░    
+    ░░███ ░░███         █████    █████       █████      
+     ░░░   ░░░         ░░░░░    ░░░░░       ░░░░░           
+          
+            ** Watch Your Files Fool **"""
 
-#Funktion som beräknar SHA-256-hashen
 
-def sha256_fil(path: Path) -> str:              
+def sha256_file(path: Path) -> str:                  #Funktion som beräknar SHA-256-hashen
     h = hashlib.sha256()                            #skapar ett SHA-256-hash-object
     with path.open("rb") as f:                      # rb = read binary
         while True:
@@ -21,17 +33,17 @@ def sha256_fil(path: Path) -> str:
     return h.hexdigest()                            #slutliga hashvärdet
 
 
-def skapa_snapshot(root: Path) -> dict:             #Skapar en ögonblicksbild av alla filer i en mapp
+def build_snapshot(root: Path) -> dict:             #Skapar en ögonblicksbild av alla filer i en mapp
                                                     # root = startkatalog där övervakningen börjar.
     snapshot = {}                                   #Dictionary som kommer fyllas med hashvärden
     for dirpath, _, filenames in os.walk(root):     #Går igenom mapparna rekursivt och kollar filnamn
         for name in filenames:                      
             p = Path(dirpath) / name                # P = path och filnamn
-            if p.name == baseline_file:             # Om filen är baseline-filen, gå vidare
+            if p.name == BASELINE_FILE:             # Om filen är baseline-filen, gå vidare
                 continue
             try:
                 rel = str(p.relative_to(root))      #relative_to() är en metod i pathlib som används för att beräkna filens sökväg relativt till den övervakade katalogen, vilket gör baselinen portabel.
-                snapshot[rel] = sha256_fil(p)       #Den relativa sökvägen används som nyckel och hashvärdet av filens innehåll är value i snapshot dicten.
+                snapshot[rel] = sha256_file(p)       #Den relativa sökvägen används som nyckel och hashvärdet av filens innehåll är value i snapshot dicten.
             except (PermissionError, OSError):      
                 continue
         
@@ -40,21 +52,22 @@ def skapa_snapshot(root: Path) -> dict:             #Skapar en ögonblicksbild a
 
 
 #Funktion som ändrar dictionaryn till en sträng så den kan skrivas som json, därefter sparas den som en fil.
-def spara_baseline(root: Path, baseline_save_file: Path) -> None:           
-    snap = skapa_snapshot(root)                                             # En dict med keys: relativa sökvägar, values: hashvärden
+def save_baseline(root: Path, baseline_save_file: Path) -> None:           
+    snap = build_snapshot(root)                                             # En dict med keys: relativa sökvägar, values: hashvärden
     data = {"root": str(root.resolve()), "files": snap}                     # ex root.resolve() = /home/tom/Documents -> gör det till en sträng så json kan spara den.
     baseline_save_file.write_text(json.dumps(data, indent=2), encoding="utf-8")                   #Skriver baseline-filen
-    print(f"\n[OK] - Baseline skapad @ {baseline_save_file} --- Innehåller {len(snap)} filer")
+    print(f"\n[OK] - Baseline built @ {baseline_save_file} --- Contains {len(snap)} files")
 
 def load_baseline(baseline_save_file: Path) -> dict:
     json_file =  json.loads(baseline_save_file.read_text(encoding="utf-8"))       # read_text läser hela filen som en sträng. json.loads gör om den till ett python-ojekt.
     #print(json_file)        #test-utskrift
     return json_file
 
-def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Funktion som kontrollerar root (mappen du vill kontrollera) mot baseline_save_file (json-filen)
+def check_integrity(root: Path, baseline_save_file: Path) -> None:          # Funktion som kontrollerar root (mappen du vill kontrollera) mot baseline_save_file (json-filen)
+    
     base = load_baseline(baseline_save_file)                                # Läser json-filen och sparar som en dict (base)
     baseline_files = base["files"]                                                     # plocka ut filerna ur dicten, se nedan: 
-    current_files = skapa_snapshot(root)                                              #"root": "/home/tom/Documents",
+    current_files = build_snapshot(root)                                              #"root": "/home/tom/Documents",
                                                                             #"files": {
                                                                             #  "text1.txt": "hash1",
                                                                             #  "text2.txt": "hash2"
@@ -72,49 +85,75 @@ def integrity_check(root: Path, baseline_save_file: Path) -> None:          # Fu
     changed = sorted(changed)
 
     #Rubrik
-    print(f"\nMapp för övervakning: {root.resolve()}")
-    print(f"Baseline: {baseline_save_file.resolve()}")
-    print("-" * 40)
+    print(header)
+    print(f"\n\nTarget directory: {root.resolve()}")
+    print(line)
+    print(f"Baseline path: {baseline_save_file.resolve()}")
+    print(line)
 
     #Nya filer
-    print(f"\nNya filer: {len(added)}")
+    print(f"\nNew files: {len(added)}")
     for f in added:
         print(f" + {f}")
     
     #Borttagna filer
-    print(f"Borttagna filer: {len(removed)}")
+    print(f"Deleted files: {len(removed)}")
     for f in removed:
         print(f" - {f}")
 
     #Ändrade filer
-    print(f"Ändrade filer: {len(changed)}")
+    print(f"Changed files: {len(changed)}\n")
     for f in changed:
         print(f" * {f}")
+        
 
     if not (added or removed or changed):
-        print("[OK] - Inga förändringar har hittats")
+        print("[OK] - No changes have been found !\n")
     else:
-        print("[VARNING] - Förändringar har hittats!")
+        print("[WARNING] - CHANGES FOUND !!\n")
 
 def main():
-    ap = argparse.ArgumentParser(description="FIM: Kontrollerar filintegritet")
-    ap.add_argument("mode", choices=["baseline", "check"], help="Skapa baseline eller kontrollera")
-    ap.add_argument("path", help="Mapp du vill övervaka")
-    ap.add_argument("--baseline-file", default=baseline_file, help="Baseline json-file (default = fim_base.json)" )
+    ap = argparse.ArgumentParser(
+        description="WYFF: Monitor directories for integrity changes",
+        epilog="""
+Examples:
+
+  Create a baseline for a directory:
+    wyff baseline ~/Pictures
+
+  Create a baseline and choose where to save it:
+    wyff baseline ~/Pictures --baseline-file ~/baselines/pictures.json
+
+  Check a directory against its baseline:
+    wyff check ~/Pictures
+
+  Check using a specific baseline file:
+    wyff check ~/Pictures --baseline-file ~/baselines/pictures.json
+
+Notes:
+  • A baseline represents the file state at a specific point in time.
+  • The same baseline file must be used when running 'check'.
+  • If no --baseline-file is specified, the default file is used.
+""",
+    formatter_class=argparse.RawTextHelpFormatter,
+    )
+    ap.add_argument("mode", choices=["baseline", "check"], help="Create baseline or check for changes")
+    ap.add_argument("path", help="Target directory")
+    ap.add_argument("--baseline-file", default=BASELINE_FILE, help="Baseline json-file (default = wyff_baseline.json)" )
     args = ap.parse_args()
 
     root = Path(args.path).expanduser().resolve()
     baseline_path = Path(args.baseline_file).expanduser().resolve()
 
     if not root.is_dir():
-        raise SystemExit(f"Fel: {root} är ingen mapp.")
+        raise SystemExit(f"\n{line}\nError: {root} is not a directory.\n{line}\n")
 
     if args.mode == "baseline":
-        spara_baseline(root, baseline_path)
+        save_baseline(root, baseline_path)
     else:
         if not baseline_path.exists():
-            raise SystemExit(f"Fel: baseline-filen finns inte: {baseline_path}\nKör baseline först.")
-        integrity_check(root, baseline_path)
+            raise SystemExit(f"\n{line}\nError: baseline file doesn't exist: {baseline_path}\nRun 'baseline' first\n{line}\n")
+        check_integrity(root, baseline_path)
 
 if __name__ == "__main__":
     main()
