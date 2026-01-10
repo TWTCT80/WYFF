@@ -58,6 +58,25 @@ wyff check /path/to/directory --baseline-file mybaseline.json
 
 [*] Output is text-based to keep dependencies minimal.
 
+## Pre-flight checks
+
+Before the main logic is executed, WYFF performs a number of basic checks to ensure that the environment is valid.  
+If any of these checks fail, the program exits gracefully with an error message.
+
+The following checks are performed:
+
+[*] Operating system check  
+WYFF verifies that it is running on a Linux system.
+
+[*] Permission check  
+The script checks that the user has read permission for the target directory.
+
+[*] Path validation  
+The target path is verified to be an existing directory.
+
+All failures are logged and handled without crashing the program.
+
+
 ## Known limitations
 
   At the moment, the tool does not verify that the baseline belongs to the same directory that is being checked.
