@@ -5,6 +5,8 @@ import hashlib              #skapar hash-object -> hashobject kan ta emot data -
 import json                 #Läser och skriver i json.
 import os                   #Ge tillgång till operativsystemets funktioner.
 from pathlib import Path    #Bättre sätt att arbeta med filer o foldrar.
+import platform
+
 
 BASELINE_FILE = "wyff_baseline.json" 
 line = "*" * 65
@@ -154,6 +156,13 @@ Notes:
     root = Path(args.path).expanduser().resolve()
     baseline_path = Path(args.baseline_file).expanduser().resolve()
 
+    if platform.system() != "Linux":
+        raise SystemExit("Error: WYFF is intended to run on Linux systems only.")
+    
+    if not os.access(root, os.R_OK):
+        raise SystemExit("Error: No read permission for target directory.")
+
+    
     if not root.is_dir():
         raise SystemExit(f"\n{line}\nError: {root} is not a directory.\n{line}\n")
 
