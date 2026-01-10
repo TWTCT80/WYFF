@@ -1,18 +1,9 @@
 {
-  "root": "/home/kali/Downloads",
+  "root": "/home/kali/temp",
   "files": {
-    "intruder.png": "b41689185f257e6298906052c183ec4d3e30856ff094cbe6269b0b294c3e897e",
-    "img.jpg": "b3a021a03d49327aa285e65e7904fc8027f80af8d5152664cd02d7035173e3c8",
-    "F\u00f6retag lista CS25(Blad1).csv": "3bec88df066b5ef28db132612904a93767c66851ac4f470e40dede69a02598d4",
-    "tom_thorsen_cv.pdf": "4022e8b521f3659a4f423c208347b8ce3c7e86df6a044b9dd327e68bae89524c",
-    "DVWA-1.0.7.iso": "30cd97d30500bb0a17a72dcdce70bb9f4d2c7f2f13b5614320731e24db1cfcad",
-    "server.log": "78a17f8fc2d1c136b5c0361ff02691e43e1a16a379c8e5401e0691d740c92639",
-    "test.txt": "f02266aaea02a6855c321b2a45213a5c1bc7b82bfcceaac9d4d76de3be43d513",
-    "TOM_THORS\u00c9N_CV.pdf": "29d527cd01e70fbe7deb03a09ad948dcdf42c0d00945f65ed8a8af5dec2c497e",
-    "vuln": "9225c5efc6c386721b4a5c2b812508b1826a678fac5f74ab82e073ebe4669ccf",
-    "hej.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "flag.txt": "e44f777b26da3f63dbce45d8e16d91ffca9ba4b02b8af4522536248ca8c2123b",
-    "Garuga-Emblem.png": "dfc2c43c7a304385366e24c38a6594d386012caa3a1d48bcc49fca9477c65e6d",
-    "vuln.c": "34b0eb286ac3a7e7db9c330d6827486d2b5f0972224c3d655f7c63768523a9cc"
+    "test2.txt": "f02266aaea02a6855c321b2a45213a5c1bc7b82bfcceaac9d4d76de3be43d513",
+    "test3.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test1.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mapp/test4.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   }
 }

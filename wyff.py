@@ -5,10 +5,27 @@ import hashlib              #skapar hash-object -> hashobject kan ta emot data -
 import json                 #Läser och skriver i json.
 import os                   #Ge tillgång till operativsystemets funktioner.
 from pathlib import Path    #Bättre sätt att arbeta med filer o foldrar.
+import platform
+import logging
+from datetime import datetime
+import logging
 
+VERSION = "1.0"
 BASELINE_FILE = "wyff_baseline.json" 
+LOGFILE = "wyff.log"
+
+logging.basicConfig(
+    filename=LOGFILE,
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 line = "*" * 65
 header = """
+
+
+
+
           
    █████   ███   █████ █████ █████ ███████████ ███████████
    ░░███   ░███  ░░███ ░░███ ░░███ ░░███░░░░░░█░░███░░░░░░█
@@ -59,6 +76,7 @@ def save_baseline(root: Path, baseline_save_file: Path) -> None:
     data = {"root": str(root.resolve()), "files": snap}                     # ex root.resolve() = /home/tom/Documents -> gör det till en sträng så json kan spara den.
     baseline_save_file.write_text(json.dumps(data, indent=2), encoding="utf-8")                   #Skriver baseline-filen
     print(f"\n[OK] - Baseline built @ {baseline_save_file} --- Contains {len(snap)} files")
+    logging.info("Baseline created successfully")
 
 def load_baseline(baseline_save_file: Path) -> dict:
     json_file =  json.loads(baseline_save_file.read_text(encoding="utf-8"))       # read_text läser hela filen som en sträng. json.loads gör om den till ett python-ojekt.
@@ -114,10 +132,12 @@ def check_integrity(root: Path, baseline_save_file: Path) -> None:          # Fu
         print(line)
         print("\n[OK] - No changes have been found !\n")
         print(line)
+        logging.info("No changes detected")
     else:
         print(line)
         print("\n[WARNING] - CHANGES HAVE BEEN DETECTED !!\n")
         print(line)
+        logging.warning("Changes detected")
 
 def main():
     ap = argparse.ArgumentParser(
@@ -149,18 +169,34 @@ Notes:
     ap.add_argument("mode", choices=["baseline", "check"], help="Create baseline or check for changes")
     ap.add_argument("path", help="Target directory")
     ap.add_argument("--baseline-file", default=BASELINE_FILE, help="Baseline json-file (default = wyff_baseline.json)" )
+    ap.add_argument("--version",action="version", version=f"WYFF version {VERSION}" )
     args = ap.parse_args()
-
+    
     root = Path(args.path).expanduser().resolve()
     baseline_path = Path(args.baseline_file).expanduser().resolve()
 
-    if not root.is_dir():
+    logging.info(f"WYFF started in {args.mode} mode")
+    logging.info(f"Target directory: {root}")
+    logging.info(f"Baseline file: {baseline_path}")
+
+
+    if platform.system() != "Linux":                                                #Kontrollerar om man använder Linux
+        logging.error(f"User is not running Linux")
+        raise SystemExit("Error: WYFF is intended to run on Linux systems only.")
+    
+    if not os.access(root, os.R_OK):                                                #Kontrollerar om man har behörighet till mappen
+        logging.error(f"No read permission for target directory: {root}")
+        raise SystemExit("Error: No read permission for target directory.")
+
+    if not root.is_dir():                                                           #kontrollerar om root är en mapp
+        logging.error(f"Target path is not a directory: {root}")
         raise SystemExit(f"\n{line}\nError: {root} is not a directory.\n{line}\n")
 
     if args.mode == "baseline":
         save_baseline(root, baseline_path)
     else:
         if not baseline_path.exists():
+            logging.error(f"Baseline file does not exist: {baseline_path}")
             raise SystemExit(f"\n{line}\nError: baseline file doesn't exist: {baseline_path}\nRun 'baseline' first\n{line}\n")
         check_integrity(root, baseline_path)
 
