@@ -65,14 +65,11 @@ If any of these checks fail, the program exits gracefully with an error message.
 
 The following checks are performed:
 
-[*] Operating system check  
-WYFF verifies that it is running on a Linux system.
+[*] WYFF verifies that it is running on a Linux system.
 
-[*] Permission check  
-The script checks that the user has read permission for the target directory.
+[*] The script checks that the user has read permission for the target directory.
 
-[*] Path validation  
-The target path is verified to be an existing directory.
+[*] The target path is verified to be an existing directory.
 
 All failures are logged and handled without crashing the program.
 
