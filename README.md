@@ -19,6 +19,8 @@ It creates a baseline of a directory and later checks if files have been added, 
 
 This project was created as part of a programming assignment with focus on cybersecurity. 
 
+See it in use https://youtu.be/-sdOhxyWYxw
+
 ## Usage
 
 Create a baseline:

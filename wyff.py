@@ -70,7 +70,9 @@ def save_baseline(root: Path, baseline_save_file: Path) -> None:            # Fu
     snap = build_snapshot(root)                                             # En dict med keys: relativa sökvägar, values: hashvärden
     data = {"root": str(root.resolve()), "files": snap}                     # ex root.resolve() = /home/tom/Documents -> gör det till en sträng så json kan spara den.
     baseline_save_file.write_text(json.dumps(data, indent=2), encoding="utf-8")                   #Skriver baseline-filen
-    print(f"\n[OK] - Baseline built @ {baseline_save_file} --- Contains {len(snap)} files")
+    print(f"\n{line}")
+    print(f"\n[OK] - Baseline built @ {baseline_save_file} --- Contains {len(snap)} files\n")
+    print(f"{line}\n")
     logging.info("Baseline created successfully")
 
 def load_baseline(baseline_save_file: Path) -> dict:
@@ -123,12 +125,12 @@ def check_integrity(root: Path, baseline_save_file: Path) -> None:          # Fu
     if not (added or removed or changed):
         print(line)
         print("\n[OK] - No changes have been found !\n")
-        print(line)
+        print(f"{line}\n")
         logging.info("No changes detected")
     else:
         print(line)
         print("\n[WARNING] - CHANGES HAVE BEEN DETECTED !!\n")
-        print(line)
+        print(f"{line}\n")
         logging.warning("Changes detected")
 
 def main():
