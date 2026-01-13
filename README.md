@@ -74,6 +74,7 @@ The following checks are performed:
 [*] The target path is verified to be an existing directory.
 
 All failures are logged and handled without crashing the program.
+The logfile (wyff.log) is saved in the directory where the script is run.
 
 
 ## Known limitations
