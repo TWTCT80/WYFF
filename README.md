@@ -85,12 +85,23 @@ The logfile (wyff.log) is saved in the directory where the script is run.
 
 ## Future improvements
 
-[*] Verify that the baseline root matches the directory being checked.
+## Future improvements
 
-[*] Change default baseline location to a fixed directory in the user’s home folder.
+- Verify that the baseline root directory matches the directory being checked, to prevent incorrect comparisons.
 
-[*] Add exit codes for easier automation.
+- Move the baseline file to a fixed or configurable location outside the monitored directory.
 
-[*] Optional colored output for better readability.
+- Add stronger protection for the baseline file, such as restricted permissions and integrity verification.
 
-[*] Package the tool for pip installation.
+- Introduce scheduled integrity checks for automated monitoring.
+
+- Add notifications when changes are detected (for example via terminal output or log monitoring).
+
+- Improve logging by using a centralized or configurable log file location.
+
+- Add exit codes to support automation and scripting.
+
+- Optional colored terminal output for improved readability.
+
+- Package the tool for easier installation (e.g. via pip).
+

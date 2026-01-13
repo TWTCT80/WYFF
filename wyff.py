@@ -134,7 +134,7 @@ def check_integrity(root: Path, baseline_save_file: Path) -> None:          # Fu
         logging.warning("Changes detected")
 
 def main():
-    ap = argparse.ArgumentParser(
+    ap = argparse.ArgumentParser(                                               # Skapar CLI-argumentparsern (hanterar kommandoradsargument)
         description="WYFF: Monitor directories for integrity changes",
         epilog="""
 Examples:
@@ -160,35 +160,35 @@ Notes:
 """,
     formatter_class=argparse.RawTextHelpFormatter,
     )
-    ap.add_argument("mode", choices=["baseline", "check"], help="Create baseline or check for changes")
-    ap.add_argument("path", help="Target directory")
-    ap.add_argument("--baseline-file", default=BASELINE_FILE, help="Baseline json-file (default = wyff_baseline.json)" )
-    ap.add_argument("--version",action="version", version=f"WYFF version {VERSION}" )
-    args = ap.parse_args()
+    ap.add_argument("mode", choices=["baseline", "check"], help="Create baseline or check for changes")                     # Kräver att användaren anger vilket läge som ska köras
+    ap.add_argument("path", help="Target directory")                                                                        # Katalogen som ska övervakas
+    ap.add_argument("--baseline-file", default=BASELINE_FILE, help="Baseline json-file (default = wyff_baseline.json)" )    # Valfri sökväg till baseline-filen (annars används standardnamn)
+    ap.add_argument("--version",action="version", version=f"WYFF version {VERSION}" )                                       # Visar programversion och avslutar
+    args = ap.parse_args()                                                                                                  # Läser in och tolkar alla argument från CLI
     
-    root = Path(args.path).expanduser().resolve()
-    baseline_path = Path(args.baseline_file).expanduser().resolve()
+    root = Path(args.path).expanduser().resolve()                                                                           # Gör om angiven katalog till absolut Path
+    baseline_path = Path(args.baseline_file).expanduser().resolve()                                                         # Gör om baseline-sökvägen till absolut Path
 
-    logging.info(f"WYFF started in {args.mode} mode")
+    logging.info(f"WYFF started in {args.mode} mode")                                                                       # Loggar startinformation
     logging.info(f"Target directory: {root}")
     logging.info(f"Baseline file: {baseline_path}")
 
 
-    if platform.system() != "Linux":                                                #Kontrollerar om man använder Linux
+    if platform.system() != "Linux":                                                                                        # Kontrollerar om man använder Linux
         logging.error(f"User is not running Linux")
         raise SystemExit("Error: WYFF is intended to run on Linux systems only.")
     
-    if not os.access(root, os.R_OK):                                                #Kontrollerar om man har behörighet till mappen
+    if not os.access(root, os.R_OK):                                                                                        # Kontrollerar om man har behörighet till mappen
         logging.error(f"No read permission for target directory: {root}")
         raise SystemExit("Error: No read permission for target directory.")
 
-    if not root.is_dir():                                                           #kontrollerar om root är en mapp
+    if not root.is_dir():                                                                                                   # kontrollerar om root är en mapp
         logging.error(f"Target path is not a directory: {root}")
         raise SystemExit(f"\n{line}\nError: {root} is not a directory.\n{line}\n")
 
-    if args.mode == "baseline":
+    if args.mode == "baseline":                                                                                             # Om användaren valt baseline-läge
         save_baseline(root, baseline_path)
-    else:
+    else:                                                                                                                   # Annars körs check-läge, avbryt om baseline-filen saknas
         if not baseline_path.exists():
             logging.error(f"Baseline file does not exist: {baseline_path}")
             raise SystemExit(f"\n{line}\nError: baseline file doesn't exist: {baseline_path}\nRun 'baseline' first\n{line}\n")
