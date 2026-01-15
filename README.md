@@ -20,8 +20,9 @@ It creates a baseline of a directory and later checks if files have been added, 
 This project was created as part of a programming assignment with focus on cybersecurity. 
 
 See it in use https://youtu.be/-sdOhxyWYxw
-See my presentation: https://miro.com/welcomeonboard/ME9jaXcwSE1VaUpoWVVsUXg2SU84b25EbkorcDQ4cnhuTFZXc0JSWmNpZGJSQ1M4ZTFFM3BMN015dGJic1R3SlBDTGt3RXJXd21YNUNxWU96WDNVdlZXQldkMjYyK1I0ZGRDYkxHRGRnNm90NElIMExud0JwOXAvQnRJMUd2WFhNakdSWkpBejJWRjJhRnhhb1UwcS9BPT0hdjE=?share_link_id=662286781619
 
+See my presentation: https://miro.com/app/board/uXjVGcmapos=/?share_link_id=207615485930
+ 
 ## Usage
 
 Create a baseline:
