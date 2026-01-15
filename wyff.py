@@ -5,7 +5,7 @@ import hashlib              # skapar hash-object -> hashobject kan ta emot data 
 import json                 # Läser och skriver i json.
 import os                   # Ge tillgång till os.walk och os.access
 from pathlib import Path    # Bättre sätt att arbeta med filer o foldrar.
-import platform             # Används för att ontrollera platform.system -> Linux
+import platform             # Används för att kontrollera platform.system -> Linux
 import logging              # Loggning till filen wyff.log
 
 VERSION = "1.0"                      
@@ -58,7 +58,7 @@ def build_snapshot(root: Path) -> dict:             # Skapar en ögonblicksbild 
                 continue
             try:
                 rel = str(p.relative_to(root))      # relative_to() är en metod i pathlib som används för att beräkna filens sökväg relativt till den övervakade katalogen, vilket gör baselinen portabel.
-                snapshot[rel] = sha256_file(p)      # Den relativa sökvägen används som nyckel och hashvärdet av filens innehåll är value i snapshot dicten.
+                snapshot[rel] = sha256_file(p)      # Den relativa sökvägen används som nyckel och hashvärdet av filens innehåll är value i snapshot dictionaryn.
             except (PermissionError, OSError):      # Ignorerar filer jag inte kan läsa.
                 continue
         
@@ -66,10 +66,10 @@ def build_snapshot(root: Path) -> dict:             # Skapar en ögonblicksbild 
 
 
 
-def save_baseline(root: Path, baseline_save_file: Path) -> None:            # Funktion som ändrar dictionaryn till en sträng så den kan skrivas som json, därefter sparas den som en fil.
-    snap = build_snapshot(root)                                             # En dict med keys: relativa sökvägar, values: hashvärden
-    data = {"root": str(root.resolve()), "files": snap}                     # ex root.resolve() = /home/tom/Documents -> gör det till en sträng så json kan spara den.
-    baseline_save_file.write_text(json.dumps(data, indent=2), encoding="utf-8")                   #Skriver baseline-filen
+def save_baseline(root: Path, baseline_save_file: Path) -> None:                                    # Funktion som ändrar dictionaryn till en sträng så den kan skrivas som json, därefter sparas den som en fil.
+    snap = build_snapshot(root)                                                                     # En dict med keys: relativa sökvägar, values: hashvärden
+    data = {"root": str(root.resolve()), "files": snap}                                             # ex root.resolve() = /home/tom/Documents -> gör det till en sträng så json kan spara den.
+    baseline_save_file.write_text(json.dumps(data, indent=2), encoding="utf-8")                     # Skriver baseline-filen
     print(f"\n{line}")
     print(f"\n[OK] - Baseline built @ {baseline_save_file} --- Contains {len(snap)} files\n")
     print(f"{line}\n")
